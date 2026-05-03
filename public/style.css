@@ -101,6 +101,8 @@ body {
 .back-to-top:focus-visible,
 .auth-code-btn:focus-visible,
 .auth-forgot:focus-visible,
+.auth-captcha-choice:focus-visible,
+.auth-captcha-refresh:focus-visible,
 .auth-submit:focus-visible,
 .auth-switch:focus-visible,
 .search-input:focus-visible {
@@ -207,6 +209,57 @@ body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 116px;
     gap: 8px;
+}
+
+.auth-captcha {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-captcha-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.auth-captcha-prompt {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.auth-captcha-refresh {
+    border: 0;
+    background: transparent;
+    color: #686868;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.auth-captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.auth-captcha-choice {
+    border: 2px solid #181818;
+    background: #fff;
+    cursor: pointer;
+    padding: 0;
+}
+
+.auth-captcha-choice img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.auth-captcha-choice.selected {
+    border-color: #d91f11;
+    box-shadow: 0 0 0 3px rgba(217, 31, 17, 0.18);
 }
 
 .auth-code-btn,

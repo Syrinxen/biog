@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSummary(data = {}) {
         const items = [
-            ['正常用户', data.users || 0],
+                ['正常用户', data.users || 0],
             ['已注销用户', data.disabledUsers || 0],
             ['正常评论', data.comments || 0],
             ['已删除评论', data.deletedComments || 0]
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
             row.className = user.disabledAt ? 'is-muted' : '';
             const emailCell = document.createElement('td');
-            emailCell.textContent = user.email;
+            emailCell.textContent = `${user.nickname || '未设置'} · ${user.email}`;
             const roleCell = document.createElement('td');
             roleCell.textContent = user.isAdmin ? '管理员' : '用户';
             const commentCell = document.createElement('td');
@@ -171,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const meta = document.createElement('div');
             meta.className = 'admin-comment-meta';
-            meta.textContent = `${comment.authorEmail} · 文章 ${comment.articleId} · ${formatDate(comment.createdAt)}`;
+            meta.textContent = `${comment.authorNickname || comment.authorEmail} · 文章 ${comment.articleId} · ${formatDate(comment.createdAt)}`;
+            if (comment.authorEmail) meta.title = comment.authorEmail;
 
             const body = document.createElement('p');
             body.textContent = comment.body || '';

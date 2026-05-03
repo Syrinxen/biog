@@ -4,6 +4,7 @@ const config = {
     api: {
         articles: 'articles.json',
         me: '/api/auth/me',
+        captcha: '/api/auth/captcha',
         sendCode: '/api/auth/send-code',
         sendResetCode: '/api/auth/send-reset-code',
         resetPassword: '/api/auth/reset-password',

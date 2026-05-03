@@ -125,7 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
             meta.className = 'comment-meta';
 
             const author = document.createElement('strong');
-            author.textContent = comment.authorEmail || '匿名用户';
+            author.textContent = comment.authorNickname || comment.authorEmail || '匿名用户';
+            if (comment.authorEmail) author.title = comment.authorEmail;
 
             const time = document.createElement('time');
             time.dateTime = comment.createdAt || '';

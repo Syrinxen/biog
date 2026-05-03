@@ -37,6 +37,8 @@
 
         const isRegister = mode === 'register';
         const isReset = mode === 'reset';
+        let captchaToken = '';
+        let captchaChoice = '';
         const modal = document.createElement('div');
         modal.className = 'auth-modal';
         modal.innerHTML = `
@@ -44,6 +46,12 @@
                 <button class="auth-close" type="button" aria-label="关闭">×</button>
                 <h2 id="auth-title">${isRegister ? '邮箱注册' : (isReset ? '重置密码' : '邮箱登录')}</h2>
                 <form class="auth-form">
+                    ${isRegister ? `
+                    <label>
+                        <span>昵称</span>
+                        <input type="text" name="nickname" autocomplete="nickname" minlength="2" maxlength="20" required>
+                    </label>
+                    ` : ''}
                     <label>
                         <span>邮箱</span>
                         <input type="email" name="email" autocomplete="email" required>
@@ -60,6 +68,15 @@
                             <button class="auth-code-btn" type="button">发送验证码</button>
                         </div>
                     </label>
+                    ` : ''}
+                    ${isRegister ? `
+                    <div class="auth-captcha">
+                        <div class="auth-captcha-head">
+                            <span class="auth-captcha-prompt">正在生成图片验证</span>
+                            <button class="auth-captcha-refresh" type="button">换一组</button>
+                        </div>
+                        <div class="auth-captcha-grid" aria-label="图片点击验证"></div>
+                    </div>
                     ` : ''}
                     <p class="auth-error" role="alert"></p>
                     <button class="auth-submit" type="submit">${isRegister ? '注册并登录' : (isReset ? '重置密码' : '登录')}</button>
@@ -83,6 +100,45 @@
             modal.remove();
             openModal('reset');
         });
+
+        async function loadCaptcha() {
+            if (!isRegister) return;
+            const prompt = modal.querySelector('.auth-captcha-prompt');
+            const grid = modal.querySelector('.auth-captcha-grid');
+            captchaToken = '';
+            captchaChoice = '';
+            prompt.textContent = '正在生成图片验证';
+            grid.innerHTML = '';
+            try {
+                const data = await api(config.api.captcha);
+                captchaToken = data.token || '';
+                prompt.textContent = data.prompt || '请选择指定图片';
+                (data.choices || []).forEach((choice) => {
+                    const button = document.createElement('button');
+                    button.className = 'auth-captcha-choice';
+                    button.type = 'button';
+                    button.dataset.choice = choice.id;
+                    button.setAttribute('aria-label', choice.label || '验证图片');
+
+                    const image = document.createElement('img');
+                    image.src = choice.image;
+                    image.alt = choice.label || '验证图片';
+                    button.appendChild(image);
+                    button.addEventListener('click', () => {
+                        captchaChoice = choice.id;
+                        grid.querySelectorAll('.auth-captcha-choice').forEach((item) => {
+                            item.classList.toggle('selected', item === button);
+                        });
+                    });
+                    grid.appendChild(button);
+                });
+            } catch (requestError) {
+                prompt.textContent = requestError.message || '图片验证加载失败';
+            }
+        }
+
+        modal.querySelector('.auth-captcha-refresh')?.addEventListener('click', loadCaptcha);
+        loadCaptcha();
 
         const codeButton = modal.querySelector('.auth-code-btn');
         codeButton?.addEventListener('click', async () => {
@@ -122,6 +178,11 @@
                 password: form.password.value
             };
             if (isRegister || isReset) payload.code = form.code.value;
+            if (isRegister) {
+                payload.nickname = form.nickname.value;
+                payload.captchaToken = captchaToken;
+                payload.captchaChoice = captchaChoice;
+            }
 
             submit.disabled = true;
             error.textContent = '';
@@ -142,6 +203,7 @@
                 modal.remove();
             } catch (requestError) {
                 error.textContent = requestError.message;
+                if (isRegister) loadCaptcha();
             } finally {
                 submit.disabled = false;
             }
@@ -164,7 +226,8 @@
         if (state.user) {
             const email = document.createElement('span');
             email.className = 'auth-email';
-            email.textContent = state.user.email;
+            email.textContent = state.user.nickname || state.user.email;
+            email.title = state.user.email;
 
             if (state.user.isAdmin) {
                 const admin = document.createElement('a');
