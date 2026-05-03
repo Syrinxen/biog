@@ -428,22 +428,84 @@ setInterval(() => {
     }
 }, 5 * 60 * 1000).unref();
 
-function captchaShapeMarkup(shape, accent) {
-    if (shape === 'circle') return `<circle cx="80" cy="54" r="26" fill="${accent}"/>`;
-    if (shape === 'triangle') return `<path d="M80 24 L112 82 H48 Z" fill="${accent}"/>`;
-    if (shape === 'square') return `<rect x="54" y="28" width="52" height="52" rx="4" fill="${accent}"/>`;
-    if (shape === 'star') return `<path d="M80 22 L90 44 L114 47 L96 63 L101 86 L80 74 L59 86 L64 63 L46 47 L70 44 Z" fill="${accent}"/>`;
-    if (shape === 'heart') return `<path d="M80 84 C38 54 50 24 72 31 C76 32 79 35 80 38 C81 35 84 32 88 31 C110 24 122 54 80 84 Z" fill="${accent}"/>`;
-    return `<path d="M95 26 C73 30 58 48 62 66 C66 84 86 92 105 82 C91 80 80 69 80 54 C80 41 86 31 95 26 Z" fill="${accent}"/>`;
+function captchaObjectMarkup(kind, accent) {
+    if (kind === 'car') {
+        return `
+            <path d="M42 64 L54 45 H104 L120 64 Z" fill="${accent}"/>
+            <rect x="34" y="62" width="94" height="20" rx="8" fill="${accent}"/>
+            <circle cx="56" cy="84" r="8" fill="#20242c"/>
+            <circle cx="108" cy="84" r="8" fill="#20242c"/>
+            <path d="M62 48 H82 V63 H52 Z M87 48 H101 L114 63 H87 Z" fill="#f8fafc" opacity="0.82"/>
+        `;
+    }
+    if (kind === 'tree') {
+        return `
+            <rect x="75" y="54" width="12" height="34" rx="3" fill="#8b5e34"/>
+            <circle cx="80" cy="36" r="21" fill="${accent}"/>
+            <circle cx="61" cy="48" r="18" fill="${accent}" opacity="0.92"/>
+            <circle cx="100" cy="49" r="18" fill="${accent}" opacity="0.92"/>
+            <path d="M44 89 H118" stroke="#20242c" stroke-width="4" stroke-linecap="round" opacity="0.38"/>
+        `;
+    }
+    if (kind === 'house') {
+        return `
+            <path d="M38 58 L80 24 L122 58 Z" fill="${accent}"/>
+            <rect x="48" y="56" width="64" height="34" rx="5" fill="${accent}" opacity="0.82"/>
+            <rect x="72" y="68" width="16" height="22" rx="2" fill="#20242c" opacity="0.75"/>
+            <rect x="55" y="64" width="13" height="12" rx="2" fill="#f8fafc"/>
+            <rect x="92" y="64" width="13" height="12" rx="2" fill="#f8fafc"/>
+        `;
+    }
+    if (kind === 'umbrella') {
+        return `
+            <path d="M38 58 C45 28 115 28 122 58 Z" fill="${accent}"/>
+            <path d="M38 58 C50 48 58 48 68 58 C78 48 88 48 98 58 C108 48 116 48 122 58" fill="#f8fafc" opacity="0.34"/>
+            <path d="M80 58 V82 C80 93 100 93 100 80" fill="none" stroke="#20242c" stroke-width="5" stroke-linecap="round"/>
+        `;
+    }
+    if (kind === 'key') {
+        return `
+            <circle cx="58" cy="54" r="18" fill="none" stroke="${accent}" stroke-width="10"/>
+            <path d="M75 54 H123" stroke="${accent}" stroke-width="10" stroke-linecap="round"/>
+            <path d="M106 54 V70 M121 54 V66" stroke="${accent}" stroke-width="8" stroke-linecap="round"/>
+        `;
+    }
+    if (kind === 'book') {
+        return `
+            <path d="M38 30 H75 C84 30 88 36 88 44 V88 C84 84 78 82 70 82 H38 Z" fill="${accent}"/>
+            <path d="M122 30 H85 C76 30 72 36 72 44 V88 C76 84 82 82 90 82 H122 Z" fill="${accent}" opacity="0.78"/>
+            <path d="M52 46 H70 M52 58 H70 M94 46 H110 M94 58 H110" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" opacity="0.75"/>
+        `;
+    }
+    if (kind === 'fish') {
+        return `
+            <path d="M43 56 C62 34 99 34 118 56 C99 78 62 78 43 56 Z" fill="${accent}"/>
+            <path d="M40 56 L24 40 V72 Z" fill="${accent}" opacity="0.84"/>
+            <circle cx="102" cy="52" r="4" fill="#20242c"/>
+            <path d="M72 42 C66 50 66 62 72 70" stroke="#f8fafc" stroke-width="4" fill="none" opacity="0.6"/>
+        `;
+    }
+    return `
+        <circle cx="57" cy="41" r="13" fill="${accent}"/>
+        <path d="M48 53 H112 L101 87 H59 Z" fill="${accent}" opacity="0.88"/>
+        <path d="M68 54 C68 38 96 38 96 54" fill="none" stroke="#20242c" stroke-width="5" stroke-linecap="round"/>
+        <path d="M64 66 H99" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" opacity="0.72"/>
+    `;
 }
 
-function createCaptchaSvg(shape, accent) {
+function createCaptchaSvg(kind, accent) {
+    const noiseA = crypto.randomInt(8, 26);
+    const noiseB = crypto.randomInt(132, 152);
+    const rotate = crypto.randomInt(-4, 5);
     const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 108">
             <rect width="160" height="108" rx="10" fill="#f8fafc"/>
             <path d="M0 86 C34 66 52 98 86 78 S128 52 160 70 V108 H0Z" fill="${accent}" opacity="0.18"/>
-            <circle cx="32" cy="28" r="13" fill="${accent}" opacity="0.28"/>
-            ${captchaShapeMarkup(shape, accent)}
+            <circle cx="${noiseA}" cy="24" r="11" fill="${accent}" opacity="0.22"/>
+            <circle cx="${noiseB}" cy="26" r="8" fill="#20242c" opacity="0.08"/>
+            <g transform="rotate(${rotate} 80 54)">
+                ${captchaObjectMarkup(kind, accent)}
+            </g>
         </svg>
     `.replace(/\s+/g, ' ').trim();
     return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
@@ -451,12 +513,14 @@ function createCaptchaSvg(shape, accent) {
 
 function createCaptchaChallenge() {
     const items = [
-        { id: 'circle', label: '圆形', accent: '#0066ff' },
-        { id: 'triangle', label: '三角形', accent: '#00a6b2' },
-        { id: 'square', label: '方形', accent: '#44a36f' },
-        { id: 'star', label: '星形', accent: '#d99a00' },
-        { id: 'heart', label: '心形', accent: '#d94b6a' },
-        { id: 'moon', label: '月亮', accent: '#6f65d8' }
+        { id: 'car', label: '小车', accent: '#0066ff' },
+        { id: 'tree', label: '树', accent: '#1d9b64' },
+        { id: 'house', label: '房子', accent: '#d99a00' },
+        { id: 'umbrella', label: '雨伞', accent: '#6f65d8' },
+        { id: 'key', label: '钥匙', accent: '#d94b6a' },
+        { id: 'book', label: '书本', accent: '#00a6b2' },
+        { id: 'fish', label: '鱼', accent: '#2f80ed' },
+        { id: 'bag', label: '包', accent: '#8b5e34' }
     ];
     const target = items[crypto.randomInt(0, items.length)];
     const token = createToken(24);
