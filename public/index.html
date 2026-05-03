@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HaooaH Code：记录算法、学习笔记和技术实践的个人博客。">
+    <meta name="theme-color" content="#ffffff">
+    <title>HaooaH Code</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="style.css?v=20260503-authstyle2">
+</head>
+<body>
+    <header class="header">
+        <a class="logo-block" href="index.html" aria-label="HaooaH Code 首页">
+            <span class="logo">H</span>
+            <div>
+                <h1>HaooaH Code</h1>
+                <p>简约的技术记录</p>
+            </div>
+        </a>
+        <nav class="nav" aria-label="文章分类">
+            <button class="nav-item active" data-module="全部">全部</button>
+            <button class="nav-item" data-module="算法">算法</button>
+            <button class="nav-item" data-module="学习">学习</button>
+        </nav>
+        <div id="auth-area" class="auth-area" aria-label="用户账号"></div>
+    </header>
+
+    <main class="main">
+        <div class="content">
+            <div class="articles">
+                <h2 class="section-title">最新文章</h2>
+                <div id="article-list" class="article-list">
+                    <div class="loading">
+                        <strong>正在加载文章</strong>
+                    </div>
+                </div>
+            </div>
+            <aside class="sidebar" aria-label="文章筛选">
+                <div class="sidebar-section">
+                    <label class="sidebar-title" for="search-input">搜索</label>
+                    <input class="search-input" type="search" id="search-input" placeholder="搜索文章标题或摘要" autocomplete="off">
+                </div>
+                <div class="sidebar-section">
+                    <h3>分类</h3>
+                    <div class="categories">
+                        <span class="category">算法</span>
+                    </div>
+                </div>
+                <div class="sidebar-section">
+                    <h3>标签</h3>
+                    <div id="tag-cloud" class="tags">
+                        <!-- 标签将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <noscript>
+        <p class="noscript">当前页面需要启用 JavaScript 才能加载文章列表。</p>
+    </noscript>
+    <script src="config.js?v=20260503-authstyle2"></script>
+    <script src="auth.js?v=20260503-authstyle2"></script>
+    <script src="script.js?v=20260503-authstyle2"></script>
+</body>
+</html>

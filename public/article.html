@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HaooaH Code 文章详情，阅读算法、学习笔记和技术实践。">
+    <meta name="theme-color" content="#ffffff">
+    <title>HaooaH Code - 文章详情</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="style.css?v=20260503-authstyle2">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.5/dist/purify.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a class="logo-block" href="index.html" aria-label="HaooaH Code 首页">
+            <span class="logo">H</span>
+            <div>
+                <h1>HaooaH Code</h1>
+                <p>简约的技术记录</p>
+            </div>
+        </a>
+        <nav class="nav" aria-label="页面导航">
+            <a class="nav-item" href="index.html">返回首页</a>
+        </nav>
+        <div id="auth-area" class="auth-area" aria-label="用户账号"></div>
+    </header>
+
+    <main class="main">
+        <div class="content article-content">
+            <div class="article-detail">
+                <div id="article-container">
+                    <!-- 文章内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            <aside id="toc-container" class="toc"></aside>
+        </div>
+        <button id="back-to-top" class="back-to-top" type="button" aria-label="回到顶部">↑</button>
+    </main>
+
+    <script src="config.js?v=20260503-authstyle2"></script>
+    <script src="auth.js?v=20260503-authstyle2"></script>
+    <script src="article.js?v=20260503-authstyle2"></script>
+</body>
+</html>

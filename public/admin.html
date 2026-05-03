@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HaooaH Code 后台管理">
+    <meta name="theme-color" content="#ffffff">
+    <title>后台管理 - HaooaH Code</title>
+    <link rel="stylesheet" href="style.css?v=20260503-authstyle2">
+</head>
+<body>
+    <header class="header">
+        <a class="logo-block" href="index.html" aria-label="HaooaH Code 首页">
+            <span class="logo">H</span>
+            <div>
+                <h1>HaooaH Code</h1>
+                <p>后台管理</p>
+            </div>
+        </a>
+        <nav class="nav" aria-label="后台导航">
+            <a class="nav-item" href="index.html">首页</a>
+            <a class="nav-item active" href="admin.html">后台</a>
+        </nav>
+        <div id="auth-area" class="auth-area" aria-label="用户账号"></div>
+    </header>
+
+    <main class="main admin-main">
+        <section class="admin-shell">
+            <div class="admin-heading">
+                <h2>后台管理</h2>
+                <p id="admin-status" role="alert"></p>
+            </div>
+
+            <div id="admin-denied" class="admin-denied" hidden>
+                <strong>需要管理员账号</strong>
+                <div>
+                    <button id="admin-login" class="comment-link" type="button">登录</button>
+                </div>
+            </div>
+
+            <div id="admin-panel" hidden>
+                <div id="admin-summary" class="admin-summary"></div>
+
+                <div class="admin-tabs" role="tablist" aria-label="后台模块">
+                    <button class="admin-tab active" type="button" data-panel="users">用户</button>
+                    <button class="admin-tab" type="button" data-panel="comments">评论</button>
+                </div>
+
+                <section id="admin-users-panel" class="admin-section">
+                    <div class="admin-section-title">
+                        <h3>用户管理</h3>
+                        <button id="refresh-users" class="comment-link" type="button">刷新</button>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>邮箱</th>
+                                    <th>权限</th>
+                                    <th>评论</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="admin-comments-panel" class="admin-section" hidden>
+                    <div class="admin-section-title">
+                        <h3>评论管理</h3>
+                        <label class="admin-checkbox">
+                            <input id="include-deleted-comments" type="checkbox">
+                            <span>显示已删除</span>
+                        </label>
+                    </div>
+                    <div id="admin-comments" class="admin-comment-list"></div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script src="config.js?v=20260503-authstyle2"></script>
+    <script src="auth.js?v=20260503-authstyle2"></script>
+    <script src="admin.js?v=20260503-authstyle2"></script>
+</body>
+</html>
