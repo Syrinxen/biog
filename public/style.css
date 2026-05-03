@@ -101,7 +101,6 @@ body {
 .back-to-top:focus-visible,
 .auth-code-btn:focus-visible,
 .auth-forgot:focus-visible,
-.auth-captcha-choice:focus-visible,
 .auth-captcha-refresh:focus-visible,
 .auth-submit:focus-visible,
 .auth-switch:focus-visible,
@@ -238,28 +237,18 @@ body {
     text-decoration: underline;
 }
 
-.auth-captcha-grid {
+.auth-captcha-row {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 180px minmax(0, 1fr);
     gap: 8px;
+    align-items: stretch;
 }
 
-.auth-captcha-choice {
+.auth-captcha-image {
     border: 2px solid #181818;
     background: #fff;
-    cursor: pointer;
-    padding: 0;
-}
-
-.auth-captcha-choice img {
-    display: block;
     width: 100%;
     height: auto;
-}
-
-.auth-captcha-choice.selected {
-    border-color: #d91f11;
-    box-shadow: 0 0 0 3px rgba(217, 31, 17, 0.18);
 }
 
 .auth-code-btn,
@@ -1173,6 +1162,10 @@ body {
 
     .auth-email {
         max-width: 100%;
+    }
+
+    .auth-captcha-row {
+        grid-template-columns: 1fr;
     }
 
     .main {

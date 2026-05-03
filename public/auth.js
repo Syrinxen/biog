@@ -38,7 +38,6 @@
         const isRegister = mode === 'register';
         const isReset = mode === 'reset';
         let captchaToken = '';
-        let captchaChoice = '';
         const modal = document.createElement('div');
         modal.className = 'auth-modal';
         modal.innerHTML = `
@@ -72,10 +71,13 @@
                     ${isRegister ? `
                     <div class="auth-captcha">
                         <div class="auth-captcha-head">
-                            <span class="auth-captcha-prompt">正在生成图片验证</span>
+                            <span class="auth-captcha-prompt">输入图片中的字符</span>
                             <button class="auth-captcha-refresh" type="button">换一组</button>
                         </div>
-                        <div class="auth-captcha-grid" aria-label="图片点击验证"></div>
+                        <div class="auth-captcha-row">
+                            <img class="auth-captcha-image" alt="图片验证码" width="180" height="108">
+                            <input type="text" name="captchaAnswer" inputmode="latin" autocomplete="off" maxlength="5" pattern="[A-Za-z0-9]{5}" placeholder="5 位字符" required>
+                        </div>
                     </div>
                     ` : ''}
                     <p class="auth-error" role="alert"></p>
@@ -104,34 +106,17 @@
         async function loadCaptcha() {
             if (!isRegister) return;
             const prompt = modal.querySelector('.auth-captcha-prompt');
-            const grid = modal.querySelector('.auth-captcha-grid');
+            const image = modal.querySelector('.auth-captcha-image');
+            const input = modal.querySelector('input[name="captchaAnswer"]');
             captchaToken = '';
-            captchaChoice = '';
             prompt.textContent = '正在生成图片验证';
-            grid.innerHTML = '';
+            image.removeAttribute('src');
+            input.value = '';
             try {
                 const data = await api(config.api.captcha);
                 captchaToken = data.token || '';
-                prompt.textContent = data.prompt || '请选择指定图片';
-                (data.choices || []).forEach((choice) => {
-                    const button = document.createElement('button');
-                    button.className = 'auth-captcha-choice';
-                    button.type = 'button';
-                    button.dataset.choice = choice.id;
-                    button.setAttribute('aria-label', choice.label || '验证图片');
-
-                    const image = document.createElement('img');
-                    image.src = choice.image;
-                    image.alt = choice.label || '验证图片';
-                    button.appendChild(image);
-                    button.addEventListener('click', () => {
-                        captchaChoice = choice.id;
-                        grid.querySelectorAll('.auth-captcha-choice').forEach((item) => {
-                            item.classList.toggle('selected', item === button);
-                        });
-                    });
-                    grid.appendChild(button);
-                });
+                image.src = data.image || '';
+                prompt.textContent = '输入图片中的字符';
             } catch (requestError) {
                 prompt.textContent = requestError.message || '图片验证加载失败';
             }
@@ -181,7 +166,7 @@
             if (isRegister) {
                 payload.nickname = form.nickname.value;
                 payload.captchaToken = captchaToken;
-                payload.captchaChoice = captchaChoice;
+                payload.captchaAnswer = form.captchaAnswer.value;
             }
 
             submit.disabled = true;
