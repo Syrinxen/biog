@@ -4,3 +4,4 @@ server.log
 *.log
 .env
 .well-known/
+public/posts/.obsidian/
