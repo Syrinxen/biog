@@ -484,7 +484,7 @@ function createCaptchaSvg(text) {
             ${letters}
         </svg>
     `.replace(/\s+/g, ' ').trim();
-    return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
 function createCaptchaChallenge() {
